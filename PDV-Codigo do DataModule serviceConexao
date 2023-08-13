@@ -1,0 +1,53 @@
+codigo do datamodule service.conexao
+
+//procedure TServiceConexao.DataModuleCreate(Sender: TObject);
+var
+LInifile   : TIniFile;   -->> Colocar isso la em cima -->> System iniFiles,
+LDatabase  : string;
+LUser_Name : string;
+LPassword  : string;
+LServidor  : string;
+LPorta     : integer;
+LCaminho   : string; 
+//begin 
+  inherited;
+end;
+
+-------------IMPLEMENTACAO--------------
+//try
+FDConn.Connected := false;
+
+LCaminho   :=ExtractFileDir(ParamStr(0)) + '\Login.ini';
+//FDPhysFBDriverLink.VendorHome := ExtractFileDir(ParamStr(0)) + '\dlls'; //--> so colocar essa linha se der erro de dll
+LIniFile   :=TIniFile.Create(LCaminho);
+LDatabase  :=LIniFile.ReadString('Conexao','Database',LDatabase);
+LServidor  :=LIniFile.ReadString('Conexao','Servidor',LServidor);
+LPorta     :=LIniFile.ReadInteger('Conexao','Porta',LPorta);
+LUser_Name :='SYSDBA';
+LPassword  :='masterkey';
+
+FDConn.Params.Values['Database'] :=LDatabase;
+FDConn.Params.Values['User_Name']:=LUser_Name;
+FDConn.Params.Values['Password'] :=LPassword;
+FDConn.Params.Values['Server']   :=LServidor;
+FDConn.Params.Values['Porta']    :=LPorta.ToString;
+
+//FDConn.Connected := true; -->>Ele Removeu essa linha
+
+//finally
+FreeAndNil(LInifile);
+
+//end;
+//FDConn.Connected := true; --->>> excluiu essa linha ao final do video
+//end;
+end.
+
+-----SO ATE EM CIMA,O DEBAIXO EU NAO SEI SE VAI TAMBEM-------
+//CARREGO MINHA FILIAL
+QRY_filial.close;
+QRY_filial.Params[0].AsInteger :=1;
+QRY_filial.Open;
+
+iCOD_FILIAL  :=QRY_filialCODIGO.AsInteger;
+sRazao_FILIAL:=QRY_filialCODIGO.AsString;
+//end;
